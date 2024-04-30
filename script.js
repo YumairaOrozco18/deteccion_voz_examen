@@ -35,7 +35,7 @@ function almacenarOrden(orden, usuario) {
     const data = {
         orden: orden,
         usuario: usuario,
-        fecha_hora: obtenerHoraYFecha() // Marcar el tiempo de la orden
+        fecha_hora: obtenerHoraYFechaDelSistema() // Marcar el tiempo de la orden
     };
 
     // Configuración de la solicitud POST
