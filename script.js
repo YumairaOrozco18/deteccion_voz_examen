@@ -92,68 +92,10 @@ function autenticarUsuarioPorVoz() {
                 // Verificar si se encontraron credenciales correctas
                 if (credencialesCorrectas) {
                     alert("Usuario autenticado: " + usuarioAutenticado);
-                    iniciarReconocimientoDeVoz(); // Iniciar el reconocimiento de voz después de la autenticación
+                    iniciarReconocimientoDeVoz(usuarioAutenticado); // Iniciar el reconocimiento de voz después de la autenticación
                 } else {
                     alert("Credenciales incorrectas. Inténtalo de nuevo.");
                     autenticarUsuarioPorVoz(); // Volver a solicitar las credenciales
-                }
-            } else {
-                console.log("No se detectaron resultados de voz.");
-            }
-        };
-
-        // Evento de error
-        recognition.onerror = function (event) {
-            console.error('Error de reconocimiento de voz:', event.error);
-        };
-    } else {
-        // Si no hay soporte para reconocimiento de voz
-        console.error('El reconocimiento de voz no está soportado en este navegador.');
-    }
-}
-// Función para autenticar al usuario por voz
-function autenticarUsuarioPorVoz() {
-    // Verificar si el navegador soporta reconocimiento de voz
-    if ('webkitSpeechRecognition' in window) {
-        const recognition = new webkitSpeechRecognition();
-        const user = document.getElementById('usuario');
-
-        recognition.lang = 'es-ES'; // Establecer el idioma de reconocimiento de voz
-
-        // Iniciar el reconocimiento de voz para capturar el nombre de usuario y contraseña
-        recognition.start();
-
-        // Evento cuando la voz es detectada
-        recognition.onresult = function (event) {
-            const results = event.results;
-            if (results && results.length > 0) {
-                const transcript = results[0][0].transcript.toLowerCase(); // Obtener el texto reconocido y convertirlo a minúsculas
-
-                // Definir usuarios y contraseñas
-                const usuariosContraseñas = [
-                    { usuario: 'Ana', contraseña: '1234' },
-                    { usuario: 'Fernando', contraseña: '8246' }
-                ];
-
-                let usuarioAutenticado = '';
-                let contraseñaAutenticada = '';
-
-                // Verificar si la oración contiene cada usuario y su contraseña correspondiente
-                for (const { usuario, contraseña } of usuariosContraseñas) {
-                    if (transcript.includes(usuario.toLowerCase()) && transcript.includes(contraseña.toLowerCase())) {
-                        usuarioAutenticado = usuario;
-                        contraseñaAutenticada = contraseña;
-                        break;
-                    }
-                }
-
-                // Verificar si se encontró un usuario autenticado
-                if (usuarioAutenticado && contraseñaAutenticada) {
-                    alert("Usuario autenticado: " + usuarioAutenticado);
-                    user.textContent = 'Usuario Identificado: ' + usuarioAutenticado;
-                    iniciarReconocimientoDeVoz(usuarioAutenticado); // Pasar el usuario autenticado como argumento
-                } else {
-                    alert("Credenciales incorrectas. Inténtalo de nuevo. (Recarga la página)");
                 }
             } else {
                 console.log("No se detectaron resultados de voz.");
@@ -388,6 +330,6 @@ function iniciarReconocimientoDeVoz() {
         recognition.start(); // Reinicia el reconocimiento de voz después de cada detección
     };
 }
-alert("Identifiquiese, a través de su usuario y contraseña por medio de voz");
+alert("Identifiquese, a través de su usuario y contraseña por medio de voz");
 // Verificar la autenticación del usuario por voz
 autenticarUsuarioPorVoz();
